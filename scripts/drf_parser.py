@@ -89,7 +89,7 @@ def main():
                         help = "Input file name")
     group.add_argument("-o", "--output",
                         type=str,
-                        help="output file name. Defaults to print to stdout",
+                        help="output file name. Defaults to print to stdout. Automatically adds header unless (--no-header) is specified",
                         default = None)
     group.add_argument("-a", "--append-to",
                         type = str,
@@ -105,6 +105,9 @@ def main():
     parser.add_argument("--header",
                         action = "store_true",
                         help = "Add header line") 
+    parser.add_argument("--no-header",
+                        action = "store_true",
+                        help = "Do not add header line if using -o/--output option")
     parser.add_argument("-s", "--sequence-id",
                         type = str,
                         help = "Sequence identifier",
@@ -118,6 +121,8 @@ def main():
 
     if args.output:
         outfile = open(args.output, "w")
+        if not args.no_header:
+            args.header = True
     elif args.append_to:
         outfile = open(args.append_to, "a")
 

@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #
+import sys
 import csv
 import argparse
 import re
@@ -139,6 +140,9 @@ def main():
     parser.add_argument("-n", "--samples", type=int, help="Number of samples per subsequence", default = 1000)
     parser.add_argument("-m", "--mfe", help="Add MFE values", action="store_true")
     parser.add_argument("--header", help="Add header line", action="store_true")
+    parser.add_argument("--no-header",
+                        action = "store_true",
+                        help = "Do not add header line if using -o/--output option")
     parser.add_argument("-s", "--sequence-id", type=str, help="overwrite sequence identifier", default = None)
     parser.add_argument("--SHAPE", type=str, help="SHAPE file")
     parser.add_argument("--start", type=int, help="Start length", default = 15)
@@ -159,6 +163,8 @@ def main():
 
     if args.output:
         outfile = open(args.output, "w")
+        if not args.no_header:
+            args.header = True
     elif args.append_to:
         outfile = open(args.append_to, "a")
 
