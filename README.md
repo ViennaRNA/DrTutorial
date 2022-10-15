@@ -40,10 +40,15 @@ contains the same reactivity data in comma-separated value (CSV) format.
 
 the `scripts/` directory contains various prediction-, parser- and plotting scripts.
 
-- [thermo_energy.py](scripts/thermo_energy.py) ... 
-- [thermo_accessibility.py](scripts/thermo_accessibility.py) ... 
-- [drf_parser.py](scripts/drf_parser.py) ... 
-- [plot_accessibility.R](scripts/plot_accessibility.R) ... 
+- [thermo_predict.py](scripts/thermo_energy.py) ... A script to
+  predict thermodynamic equilibrium profiles for energies and
+  accessibilities of nascent transcripts
+- [drf_parser.py](scripts/drf_parser.py) ... A parser for *.drf output
+  as produced by the `DrTransformer` and `DrKinfold` programs
+- [plot_energy_bands.R](scripts/plot_energy_bands.R) ... A script to
+  produce an energy distribution plot for cotranscriptionally formed structures
+- [plot_accessibility.R](scripts/plot_accessibility.R) ... A script to
+  plot accessibility profiles for nascent transcripts
 
 
 ## References
