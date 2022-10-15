@@ -66,6 +66,9 @@ def main():
                         help="Append output to an existing file instead of overwriting it")
     parser.add_argument("--header",
                         help="Add header line", action="store_true")
+    parser.add_argument("--no-header",
+                        action = "store_true",
+                        help = "Do not add header line if using -o/--output option")
     parser.add_argument("-s", "--sequence-id",
                         type=str, help="Sequence identifier", default="RNA")
 
@@ -76,6 +79,8 @@ def main():
 
     if args.output:
         outfile = open(args.output, "w")
+        if not args.no_header:
+            args.header = True
     elif args.append_to:
         outfile = open(args.append_to, "a")
 
