@@ -163,16 +163,16 @@ def main():
         drtrafo_get_drforna_energies(f, bins)
 
         if args.header:
-            header_list = [ "step",
+            header_list = [ "length",
                             "method",
-                            "sequence",
-                            "quant25",
-                            "quant75",
-                            "median",
-                            "mean",
-                            "min",
-                            "max"]
-            print("\t".join(header_list), file=outfile)
+                            "name",
+                            "Q25",
+                            "Q75",
+                            "Qmedian",
+                            "Qmean",
+                            "Qmin",
+                            "Qmax"]
+            print(",".join(header_list), file=outfile)
 
         for s in range(1, outlen):
             # Expand energy counts to list
@@ -191,7 +191,7 @@ def main():
                          f'{df.mean():6.2f}',
                          f'{df.min():6.2f}',
                          f'{df.max():6.2f}']
-            print("\t".join(data_list), file=outfile)
+            print(",".join(data_list), file=outfile)
 
         f.close()
 

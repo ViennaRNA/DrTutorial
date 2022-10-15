@@ -112,13 +112,13 @@ def fold_and_print(sequence, options, SHAPE_data, outfile):
                                                 df.mean(),
                                                 df.min(),
                                                 df.max() ] ]
-        print("\t".join(line), file=outfile)
+        print(",".join(line), file=outfile)
 
         if options.mfe:
             line = [str(i), "MFE", options.sequence_id]
             line += ["{:6.2f}".format(d) for d in [mfe for i in range(6)] ]
 
-            print("\t".join(line), file=outfile)
+            print(",".join(line), file=outfile)
         
 
 def main():
@@ -179,17 +179,17 @@ def main():
         RNA.read_parameter_file(args.params)
 
     if args.header:
-        header = ["step",
+        header = ["length",
                   "method",
-                  "sequence",
-                  "quant25",
-                  "quant75",
-                  "median",
-                  "mean",
-                  "min",
-                  "max"]
+                  "name",
+                  "Q25",
+                  "Q75",
+                  "Qmedian",
+                  "Qmean",
+                  "Qmin",
+                  "Qmax"]
 
-        print("\t".join(header), file=outfile)
+        print(",".join(header), file=outfile)
 
     if not args.sequence_id:
         args.sequence_id = seq_id if seq_id else "RNA"
