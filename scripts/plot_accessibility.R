@@ -75,7 +75,7 @@ SHAPE2probs = function(x) {
 dat <- read.csv(opt$inputfile, header=T, sep=",", check.names=F)
 
 if (opt$end == 0) {
-  max_length = max(dat[3])
+  max_length = max(dat[1])
 } else {
   max_length = opt$end
 }
@@ -93,7 +93,7 @@ if (opt$offset > 0) {
   if (!opt$nofootprint) {
     for (i in seq(1, nrow(dat), 1)) {
       # get actual transcription step for this entry of data
-      step = dat[i, 3]
+      step = dat[i, 1]
       # append opt$offset data points representing the polymerase footprint
       # from column (step + 1) + 1 to (step + 1) + 1 + offset - 1
       for (j in seq(step + 1, step + opt$offset, 1)) {
@@ -111,7 +111,7 @@ if (opt$offset > 0) {
   y_axis_labels = seq(opt$start, max_length, 10)
 }
 
-dd <- melt(dat, id.vars=c("length", "sequence", "method"))
+dd <- melt(dat, id.vars=c("length", "method", "name"))
 
 if (opt$normalize) {
     # normalize SHAPE reactivities
@@ -213,7 +213,7 @@ data_labels = c("RNAfold", "Kinfold", "DrTransformer","Experiment")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
 strand_labels = c("SRP (wild type)", "SRP (U21C)", "SRP (U21C/C22U/G93A)", "SRP (U35C/U37C)")
 
-p <- p + facet_grid(factor(method, levels=data_order, labels=data_labels)~factor(sequence, levels=strand_order, labels = strand_labels))
+p <- p + facet_grid(factor(method, levels=data_order, labels=data_labels)~factor(name, levels=strand_order, labels = strand_labels))
 
 if (opt$offset < 0) {
   p <- p + scale_x_continuous(

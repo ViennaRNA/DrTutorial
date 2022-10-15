@@ -136,7 +136,7 @@ def main():
     if mode in ['shape', 'lshape','up']:
         uprobs = get_uprobs(args.input)
         if args.header:
-            header_list = ["sequence", "method", "length"]
+            header_list = ["length", "method", "name"]
             header_list += [ map(str,range(1, outlen)) ]
 
             print(",".join(header_list), file=outfile)
@@ -144,14 +144,14 @@ def main():
         if mode == 'lshape':
             lprobs = uprobs[-1]
 
-            data_list = [f'{args.sequence_id},{args.tool_id},{len(lprobs)}']
+            data_list = [f'{{len(lprobs)},{args.tool_id},args.sequence_id}']
             data_list += [f'{round(p,2)}' for p in lprobs ]
             data_list += ['NA' for _ in range(length - len(lprobs))]
             print(','.join(data_list), file=outfile)
 
         else:
             for s in range(1, outlen):
-                data_list = [f'{args.sequence_id},{args.tool_id},{s}']
+                data_list = [f'{s},{args.tool_id},{args.sequence_id}']
                 data_list += [str(round(p,2)) for p in uprobs[s]]
                 data_list += ['NA' for _ in range(length - s)]
                 print(','.join(data_list), file=outfile)

@@ -69,9 +69,12 @@ def get_SHAPE_data(filename, n, offset = 14):
 
 
 def accessibility(args, sequence, outfile):
+    """
+    Predict accessibility profiles
+    """
     # print header line
     if args.header:
-        head_list = ["sequence", "method", "length"]
+        head_list = ["length", "method", "name"]
         head_list += [str(i) for i in range(1, n + 1) ]
         print(",".join(head_list), file=outfile)
 
@@ -102,7 +105,7 @@ def accessibility(args, sequence, outfile):
             q[i] = 1 - q[i]
 
         # collect data for current line of accessibilities
-        line_list = [args.sequence_id, "equilibrium", str(l)]
+        line_list = [str(l), "equilibrium", args.sequence_id]
         line_list += [ "{:g}".format(q[i]) for i in range(1, l + 1) ]
         line_list += [ "NA" for i in range(l + 1, len(sequence) + 1) ]
 
@@ -192,28 +195,28 @@ def main():
     parser.add_argument("-i",
                         "--input",
                         type = str,
-                        help="input file",
+                        help = "Sequence input file, e.g. FASTA formatted.",
                         required = True)
     group_output.add_argument("-o", "--output",
                         type = str,
-                        help = "output file name. Defaults to print to stdout",
+                        help = "Output file name. Defaults to print to stdout.",
                         default = None)
     group_output.add_argument("-a", "--append-to",
                         type = str,
-                        help = "Append output to an existing file instead of overwriting it")
+                        help = "Append output to an existing file instead of overwriting it.")
     group_header.add_argument("--header",
                         action="store_true",
                         help="Add header line")
     group_header.add_argument("--no-header",
                         action = "store_true",
-                        help = "Do not add header line if using -o/--output option")
+                        help = "Do not add header line if using -o/--output option or when printing to stdout.")
     parser.add_argument("-s", "--sequence-id",
                         type = str,
-                        help = "overwrite sequence identifier",
+                        help = "Overwrite sequence identifier. Defaults to extract identifier from FASTA header.",
                         default = None)
     parser.add_argument("-P", "--params",
                         type = str,
-                        help = "Load a different energy parameter set")
+                        help = "Load a different energy parameter set.")
 
     # create sub-parsers for the different modes of this script
     sub_parsers = parser.add_subparsers(title = 'subcommands',
@@ -225,14 +228,14 @@ def main():
                                        help='Energy distribution help')
     parser_en.add_argument("-n", "--samples",
                            type = int,
-                           help="Number of samples per subsequence",
+                           help = "Number of samples per subsequence.",
                            default = 1000)
     parser_en.add_argument("--mfe",
-                           action="store_true",
-                           help="Add MFE values")
+                           action = "store_true",
+                           help = "Add MFE values.")
     parser_en.add_argument("--SHAPE",
                           type = str,
-                          help = "SHAPE file")
+                          help = "cotranscriptional SHAPE reactivity file (csv formatted).")
     parser_en.add_argument("--start",
                            type = int,
                            help = "Start length",
@@ -244,8 +247,8 @@ def main():
     parser_en.set_defaults(func = fold_and_print)
 
     # options for the 'accessibility profile' mode
-    parser_up     = sub_parsers.add_parser('accessibility',
-                                           help = 'Accessibility profile help')
+    parser_up = sub_parsers.add_parser('accessibility',
+                                       help = 'Accessibility profile help')
     # no further options for this mode (yet)
     parser_up.set_defaults(func = accessibility)
 
