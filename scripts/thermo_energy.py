@@ -19,7 +19,7 @@ def get_sequence_line(filename):
     header   = None
 
     seq_pattern       = re.compile(r"([ACGUTNacgutn]+)")
-    fasta_header_pat  = re.compile(r"^>(.*)$")
+    fasta_header_pat  = re.compile(r"^>\s*([^\s]+)")
 
     with open(filename) as f:
         for line in f:
@@ -192,7 +192,7 @@ def main():
         print("\t".join(header), file=outfile)
 
     if not args.sequence_id:
-        args.sequence_id = seq_id if seq_id else "sequence"
+        args.sequence_id = seq_id if seq_id else "RNA"
 
 
     fold_and_print(sequence, args, SHAPE_data, outfile)

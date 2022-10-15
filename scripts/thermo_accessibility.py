@@ -5,9 +5,44 @@ import re
 import sys
 import RNA
 
-# regular expression to match an RNA sequence
-seq_pattern = re.compile(r"([ACGUTNacgutn]+)")
 
+def get_sequence_line(filename):
+    """
+    Read a file and return the first line that
+    consists of RNA/DNA sequence letters. If no
+    such line is found or there is any problem
+    with the input file, return None
+    """
+    sequence = None
+    header   = None
+
+    seq_pattern       = re.compile(r"([ACGUTNacgutn]+)")
+    fasta_header_pat  = re.compile(r"^>\s*([^\s]+)")
+
+    with open(filename) as f:
+        for line in f:
+            m = fasta_header_pat.match(line)
+            if m:
+                # only process first FASTA entry in file
+                if header and sequence:
+                    return (sequence, header)
+
+                header    = m.group(1)
+                sequence  = ""
+                continue
+
+            m = seq_pattern.match(line)
+            if m:
+                # for input without FASTA header, each
+                # sequence must be on a single line
+                if not header:
+                    return (m.group(1), None)
+                elif sequence:
+                    sequence += m.group(1)
+                else:
+                    sequence = m.group(1)
+
+    return (sequence, header)
 
 
 def accessibility(sequence, outfile, identifier):
@@ -51,6 +86,7 @@ def accessibility(sequence, outfile, identifier):
 def main():
     outfile   = None
     sequence  = None
+    n         = 0
     parser    = argparse.ArgumentParser()
     group     = parser.add_mutually_exclusive_group()
 
@@ -70,7 +106,7 @@ def main():
                         action = "store_true",
                         help = "Do not add header line if using -o/--output option")
     parser.add_argument("-s", "--sequence-id",
-                        type=str, help="Sequence identifier", default="RNA")
+                        type=str, help="Sequence identifier", default=None)
 
     args = parser.parse_args()
 
@@ -87,23 +123,24 @@ def main():
     if not outfile:
         outfile = sys.stdout
 
-    with open(args.input) as f:
-        for line in f:
-            # is this a line with an RNA sequence?
-            m = seq_pattern.match(line)
-            if m:
-                # store sequence
-                sequence = m.group(1)
-                break
+    if args.input:
+        sequence, seq_id  = get_sequence_line(args.input)
+        n                 = len(sequence)
 
-    if sequence:
-        # print header line
-        if args.header:
-            head_list = ["sequence", "method", "length"]
-            head_list += [str(i) for i in range(1, len(sequence) + 1) ]
-            print(",".join(head_list), file=outfile)
+    # exit script if no sequence is available
+    if not sequence:
+        exit(1)
 
-        accessibility(sequence, outfile, args.sequence_id)
+    # print header line
+    if args.header:
+        head_list = ["sequence", "method", "length"]
+        head_list += [str(i) for i in range(1, n + 1) ]
+        print(",".join(head_list), file=outfile)
+
+    if not args.sequence_id:
+        args.sequence_id = seq_id if seq_id else "RNA"
+
+    accessibility(sequence, outfile, args.sequence_id)
 
 if __name__ == '__main__':
     main()
