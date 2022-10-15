@@ -106,7 +106,7 @@ def fold_and_print(sequence, options, SHAPE_data, outfile):
 
         # print result for sampling approach
         line = [str(i), "sampling", options.sequence_id]
-        line += ["{:6.2f}".format(d) for d in [ qt[0.25],
+        line += ["{:.2f}".format(d) for d in [ qt[0.25],
                                                 qt[0.75],
                                                 df.median(),
                                                 df.mean(),
@@ -116,7 +116,7 @@ def fold_and_print(sequence, options, SHAPE_data, outfile):
 
         if options.mfe:
             line = [str(i), "MFE", options.sequence_id]
-            line += ["{:6.2f}".format(d) for d in [mfe for i in range(6)] ]
+            line += ["{:.2f}".format(d) for d in [mfe for i in range(6)] ]
 
             print(",".join(line), file=outfile)
         

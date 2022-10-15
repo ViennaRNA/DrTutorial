@@ -182,15 +182,15 @@ def main():
 
             df  = pd.Series(energies)
             qt  = df.quantile([0.25,0.75])
-            data_list = [f'{s:>4d}',
+            data_list = [f'{s:d}',
                          f'{args.tool_id}',
                          f'{args.sequence_id}',
-                         f'{qt[0.25]:7.2f}',
-                         f'{qt[0.75]:7.2f}',
-                         f'{df.median():6.2f}',
-                         f'{df.mean():6.2f}',
-                         f'{df.min():6.2f}',
-                         f'{df.max():6.2f}']
+                         f'{qt[0.25]:.2f}',
+                         f'{qt[0.75]:.2f}',
+                         f'{df.median():.2f}',
+                         f'{df.mean():.2f}',
+                         f'{df.min():.2f}',
+                         f'{df.max():.2f}']
             print(",".join(data_list), file=outfile)
 
         f.close()
