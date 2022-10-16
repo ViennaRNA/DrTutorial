@@ -45,6 +45,9 @@ the `scripts/` directory contains various prediction-, parser- and plotting scri
   accessibilities of nascent transcripts
 - [drf_parser.py](scripts/drf_parser.py) ... A parser for *.drf output
   as produced by the `DrTransformer` and `DrKinfold` programs
+- [convert_rdat.py](scripts/convert_rdat.py) ... A script to convert cotranscriptional
+  SHAPE reactivity data from RMDBs .rdat files into the CSV format produced by `drf_parser.py`
+  and `thermo_predict.py`
 - [plot_energy_bands.R](scripts/plot_energy_bands.R) ... A script to
   produce an energy distribution plot for cotranscriptionally formed structures
 - [plot_accessibility.R](scripts/plot_accessibility.R) ... A script to
