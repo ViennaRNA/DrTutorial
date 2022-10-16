@@ -32,10 +32,6 @@ the [RMDB database](https://rmdb.stanford.edu/).
 - [SRP21CR_BZCN_0002.rdat](SHAPE/SRP21CR_BZCN_0002.rdat) ... Replicate 2 for rescue E.coli SRP mutant (U21C/C22U/G93A) from [1]
 - [SRP21CR_BZCN_0003.rdat](SHAPE/SRP21CR_BZCN_0003.rdat) ... Replicate 3 for rescue E.coli SRP mutant (U21C/C22U/G93A) from [1]
 
-Each of these `.rdat` files is accompanied by a corresponding `.dat` file that
-contains the same reactivity data in comma-separated value (CSV) format.
-
-
 ## Python and R scripts
 
 the `scripts/` directory contains various prediction-, parser- and plotting scripts.
