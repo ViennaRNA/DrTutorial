@@ -15,7 +15,7 @@ cbPalette <- scico(4, palette = 'roma')
 data_order = c("MFE","sampling","Kinfold","DrTrafo")
 data_labels = c("RNAfold", "RNAsubopt", "Kinfold", "DrTransformer")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
-strand_labels = c("SRP wild type", "SRP (U21C)", "SRP (U21C/C22U/G93A)", "SRP (U35C/U37C)")
+strand_labels = c("SRPn (native)", "SRPt (U21C)", "SRPr (U21C/C22U/G93A)", "SRPf (U35C/U37C)")
 
 circle             <- 1
 circle_filled      <- 21

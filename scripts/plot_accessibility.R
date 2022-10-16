@@ -226,7 +226,7 @@ if (!opt$SHAPE || opt$SHAPE2probs) {
 data_order = c("equilibrium","Kinfold","DrTrafo","SHAPE")
 data_labels = c("RNAfold", "Kinfold", "DrTransformer","Experiment")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
-strand_labels = c("SRP (wild type)", "SRP (U21C)", "SRP (U21C/C22U/G93A)", "SRP (U35C/U37C)")
+strand_labels = c("SRPn (native)", "SRPt (U21C)", "SRPr (U21C/C22U/G93A)", "SRPf (U35C/U37C)")
 
 p <- p + facet_grid(factor(method, levels=data_order, labels=data_labels)~factor(name, levels=strand_order, labels = strand_labels))
 
