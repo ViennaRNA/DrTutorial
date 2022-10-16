@@ -36,7 +36,10 @@ def rdat2csv(args, outfile):
     reactivities = { dd['length'] : dd['reactivities'] for dd in data.values() }
 
     # determine the maximum length of the data
-    max_l = max([int(n) for n in reactivities])
+    if args.length > 0:
+        max_l = args.length
+    else:
+        max_l = max([int(n) for n in reactivities])
 
     # print header line
     if args.header:
@@ -83,6 +86,10 @@ def main():
                         type = str,
                         help = "Sequence identifier",
                         default = "RNA")
+    parser.add_argument("-l", "--length",
+                        type = int,
+                        help = "Length of full transcript. Missing data will be filled with NA",
+                        default = -1)
 
     args = parser.parse_args()
 
