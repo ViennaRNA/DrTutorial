@@ -41,6 +41,8 @@ option_list = list(
               help="End of transcription, i.e. maximum transcript length"),
   make_option(c("-l", "--ltitle"), type="character", default="Accessibility",
               help="Title of the legend", metavar="character"),
+  make_option(c("--lpos"), type="character", default="bottom",
+              help="Position of the legend", metavar="character"),
   make_option(c("-x", "--xlabel"), type="character", default=NULL,
               help="Label for the X-axis", metavar="character"),
   make_option(c("-y", "--ylabel"), type="character", default=NULL,
@@ -113,6 +115,7 @@ if (opt$offset > 0) {
 
 dd <- melt(dat, id.vars=c("length", "method", "name"))
 
+
 if (opt$normalize) {
     # normalize SHAPE reactivities
     lst <- sort(dd$value, decreasing=T)
@@ -182,10 +185,16 @@ if (!opt$SHAPE || opt$SHAPE2probs) {
 #                breaks=c(0, 0.5, 1),
 #                labels=c("0","0.5","1"),
 #                values=rescale(seq(0, 1, length.out=6)))
+    if (!opt$nofootprint) {
+      oob_opt = squish
+    } else {
+      oob_opt = censor
+    }
+
     p <- p + scale_fill_viridis_c(
                 option = "rocket",
                 na.value="transparent",
-#                oob=squish, 
+                oob=oob_opt, 
                 limits=c(0,1),
                 breaks=c(0, 0.5, 1),
                 labels=c("0","0.5","1"),
@@ -199,11 +208,17 @@ if (!opt$SHAPE || opt$SHAPE2probs) {
 #                oob=squish,
 #                breaks=seq(0, SHAPE_range),
 #                labels=c(lab, paste(expression(">="), sprintf("%d", SHAPE_range))))
+    if (!opt$nofootprint) {
+      oob_opt = squish
+    } else {
+      oob_opt = censor
+    }
+
     p <- p + scale_fill_viridis_c(
                 option = "rocket",
                 na.value="transparent",
                 limits=c(0,SHAPE_range),
-                oob=squish,
+                oob=oob_opt,
                 breaks=seq(0, SHAPE_range),
                 labels=c(lab, paste(expression(">="), sprintf("%d", SHAPE_range))))
 }
@@ -266,8 +281,7 @@ p <- p +  guides(fill = guide_colorbar(
                             barwidth = 25,
                             barheight = 1))
 p <- p + theme(
-            legend.position = "bottom",
-#            legend.position = "top",
+            legend.position = opt$lpos,
             legend.direction = "horizontal",
             legend.title = element_text(size = 22),
             legend.text = element_text(size = 16),
@@ -275,5 +289,10 @@ p <- p + theme(
             legend.key.height = unit(2,"line"),
             legend.key.width  = unit(2,"line"))
 
-ggsave(file=opt$out, plot=p, width=18, height=12)
-#ggsave(file=opt$out, plot=p, width=18, height=6)
+# adapt output figure size to input data
+nrows = length(unique(dd$method))
+ncols = length(unique(dd$name))
+plot_width = ncols * 5 + 1
+plot_height = nrows * 5 + 1
+
+ggsave(file=opt$out, plot=p, width=plot_width, height=plot_height)
