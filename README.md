@@ -40,7 +40,7 @@ contains the same reactivity data in comma-separated value (CSV) format.
 
 the `scripts/` directory contains various prediction-, parser- and plotting scripts.
 
-- [thermo_predict.py](scripts/thermo_energy.py) ... A script to
+- [thermo_predict.py](scripts/thermo_predict.py) ... A script to
   predict thermodynamic equilibrium profiles for energies and
   accessibilities of nascent transcripts
 - [drf_parser.py](scripts/drf_parser.py) ... A parser for *.drf output
