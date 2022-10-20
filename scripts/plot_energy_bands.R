@@ -12,8 +12,8 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 cbPalette <- c("#999999", "#E69F00", "#009E73", "#D55E00", "#CC79A7")
 cbPalette <- scico(4, palette = 'roma')
 
-data_order = c("MFE","sampling","Kinfold","DrTrafo")
-data_labels = c("RNAfold", "RNAsubopt", "Kinfold", "DrTransformer")
+data_order = c("DrTrafo","Kinfold", "MFE","sampling")
+data_labels = c("DrTransformer", "Kinfold", "RNAfold", "RNAsubopt")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
 strand_labels = c("SRPn (native)", "SRPt (U21C)", "SRPr (U21C/C22U/G93A)", "SRPf (U35C/U37C)")
 
@@ -133,7 +133,7 @@ if (!is.null(opt$title)){
 p <- p + theme_bw()
 p <- p + theme(plot.title = element_text(hjust = 0.5, size = 24),
                 plot.background   = element_blank(),
-                panel.grid.minor  = element_blank(),
+#                panel.grid.minor  = element_blank(),
                 axis.line = element_blank(),
                 panel.spacing = unit(0.5, "lines"),
                 panel.border = element_blank(),
@@ -144,7 +144,7 @@ p <- p +  theme(#axis.title.x  = element_text(family="Helvetica", size = 16, col
                 axis.text.x   = element_text(family="Helvetica", size = 14, colour="#666666", angle = 90.),
                 axis.title.y  = element_text(family="Helvetica", size = 16, colour="#000000"),
                 axis.text.y   = element_text(family="Helvetica", size = 14, colour="#666666"),
-                strip.text.x  = element_text(family="Helvetica", size = 22, colour="#111111")
+                strip.text.x  = element_text(family="Helvetica", size = 20, colour="#111111")
                )
 if (opt$noguide) {
 p <- p + theme(legend.position = "none")
@@ -204,9 +204,9 @@ if (!is.null(opt$title)){
 }
 
 p2 <- p2 + theme_bw()
-p2 <- p2 + theme(plot.title = element_text(hjust = 0.5, size = 24),
+p2 <- p2 + theme(plot.title = element_text(hjust = 0.5, size = 20),
                 plot.background   = element_blank(),
-                panel.grid.minor  = element_blank(),
+#                panel.grid.minor  = element_blank(),
                 axis.line = element_blank(),
                 panel.spacing = unit(0.5, "lines"),
                 panel.border = element_blank(),
@@ -214,7 +214,7 @@ p2 <- p2 + theme(plot.title = element_text(hjust = 0.5, size = 24),
                 strip.background = element_blank(),
                 strip.text.x = element_blank())
 p2 <- p2 +  theme(axis.title.x  = element_text(family="Helvetica", size = 16, colour="#000000"),
-                axis.text.x   = element_text(family="Helvetica", size = 14, colour="#666666", angle = 90.),
+                axis.text.x   = element_text(family="Helvetica", size = 14, colour="#666666", angle = 90.,vjust=0.5),
                 axis.title.y  = element_text(family="Helvetica", size = 16, colour="#000000"),
                 axis.text.y   = element_text(family="Helvetica", size = 14, colour="#666666")
                )

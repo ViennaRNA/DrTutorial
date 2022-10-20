@@ -168,7 +168,7 @@ if (opt$offset != 0) {
 
 
 p <- ggplot(dd, aes(x=as.integer(variable), y=as.integer(length)))
-p <- p + geom_raster(aes(fill=value), na.rm=T, alpha=1, interpolate=F)
+p <- p + geom_raster(aes(fill=value), na.rm=T, interpolate=F)
 if (!opt$SHAPE || opt$SHAPE2probs) {
 #    p <- p + scale_fill_gradientn(
 #                colours=c("darkblue", "steelblue", "seagreen","orange","yellow"),
@@ -223,12 +223,12 @@ if (!opt$SHAPE || opt$SHAPE2probs) {
                 labels=c(lab, paste(expression(">="), sprintf("%d", SHAPE_range))))
 }
 
-data_order = c("equilibrium","Kinfold","DrTrafo","SHAPE")
-data_labels = c("RNAfold", "Kinfold", "DrTransformer","Experiment")
+data_order = c("DrTrafo", "Kinfold","equilibrium","SHAPE")
+data_labels = c("DrTransformer", "Kinfold", "RNAfold", "Experiment")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
 strand_labels = c("SRPn (native)", "SRPt (U21C)", "SRPr (U21C/C22U/G93A)", "SRPf (U35C/U37C)")
 
-p <- p + facet_grid(factor(method, levels=data_order, labels=data_labels)~factor(name, levels=strand_order, labels = strand_labels))
+p <- p + facet_grid(factor(method, levels=data_order, labels=data_labels)~factor(name, levels=strand_order, labels = strand_labels), scales="free_y")
 
 if (opt$offset < 0) {
   p <- p + scale_x_continuous(
@@ -256,22 +256,23 @@ if (!is.null(opt$title)){
 }
 
 p <- p + theme_bw()
-p <- p + theme(plot.title = element_text(hjust = 0.5, size = 24),
+p <- p + theme(plot.title = element_text(hjust = 0.5, size = 28),
                 plot.background   = element_blank(),
                 panel.spacing = unit(1, "lines"),
                 panel.border = element_blank(),
                 panel.background = element_blank(),
-                panel.grid.major  = element_blank(),
+#                panel.grid.major  = element_line(size=0.1,color="#aaaaaa"),
+#                panel.grid.major  = element_blank(),
                 panel.grid.minor  = element_blank(),
                 axis.line = element_blank(),
                 strip.background = element_blank())
 
-p <- p +  theme(axis.title.x  = element_text(family="Helvetica", size = 20, colour="#000000"),
-                axis.text.x   = element_text(family="Helvetica", size = 16, colour="#555555", angle = 90.),
-                axis.title.y  = element_text(family="Helvetica", size = 20, colour="#000000"),
-                axis.text.y   = element_text(family="Helvetica", size = 16, colour="#555555"),
-                strip.text.x  = element_text(family="Helvetica", size = 26, colour="#111111"),
-                strip.text.y  = element_text(family="Helvetica", size = 26, colour="#111111")
+p <- p +  theme(axis.title.x  = element_text(family="Helvetica", size = 24, colour="#000000"),
+                axis.text.x   = element_text(family="Helvetica", size = 20, colour="#666666", angle = 90.),
+                axis.title.y  = element_text(family="Helvetica", size = 24, colour="#000000"),
+                axis.text.y   = element_text(family="Helvetica", size = 20, colour="#666666"),
+                strip.text.x  = element_text(family="Helvetica", size = 28, colour="#111111"),
+                strip.text.y  = element_text(family="Helvetica", size = 28, colour="#111111")
                )
 
 p <- p +  guides(fill = guide_colorbar(
@@ -283,8 +284,8 @@ p <- p +  guides(fill = guide_colorbar(
 p <- p + theme(
             legend.position = opt$lpos,
             legend.direction = "horizontal",
-            legend.title = element_text(size = 22),
-            legend.text = element_text(size = 16),
+            legend.title = element_text(size = 24),
+            legend.text = element_text(size = 18),
             legend.background = element_blank(),
             legend.key.height = unit(2,"line"),
             legend.key.width  = unit(2,"line"))

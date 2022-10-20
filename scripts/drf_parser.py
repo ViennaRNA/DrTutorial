@@ -144,7 +144,7 @@ def main():
         if mode == 'lshape':
             lprobs = uprobs[-1]
 
-            data_list = [f'{{len(lprobs)},{args.tool_id},args.sequence_id}']
+            data_list = [f'{len(lprobs)},{args.tool_id},{args.sequence_id}']
             data_list += [f'{round(p,2)}' for p in lprobs ]
             data_list += ['NA' for _ in range(length - len(lprobs))]
             print(','.join(data_list), file=outfile)
