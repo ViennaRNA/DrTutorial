@@ -1,8 +1,8 @@
-# A hitchhiker's guide to computational cotranscriptional folding using the SRP RNA - Data and Scripts
+# A guide to computational cotranscriptional folding using the SRP RNA - Data and Scripts
 
 This repository contains data, scripts and other resources for the DrTutorial book chapter
 
-**"A hitchhiker's guide to computational cotranscriptional folding using the SRP RNA"**
+**"A guide to computational cotranscriptional folding using the SRP RNA"**
 
 Below is a list of resources collected within this repository together with their references and sources (if applicable).
 
