@@ -253,7 +253,7 @@ def parse_drkinfold_args(parser):
     parser.add_argument("--t-lin", type = int, default = 10, metavar = '<int>',
             help = """Evenly space output *--t-lin* times during transcription on a linear time scale.""")
 
-    parser.add_argument("--t-log", type = int, default = 20, metavar = '<int>',
+    parser.add_argument("--t-log", type = int, default = 30, metavar = '<int>',
             help = """Evenly space output *--t-log* times after transcription on a logarithmic time scale.""")
     return
 

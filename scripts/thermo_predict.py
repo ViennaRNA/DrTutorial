@@ -90,25 +90,20 @@ def accessibility(args, sequence, outfile):
         fc.pf()
         # retrieve base pair probabilities
         bpp = fc.bpp()
-
         # initialize list for accessibilities
         q = [ 0 for i in range(0, l + 1) ]
-
         # sum-up probabilities to be paired
         for i in range(1, l + 1):
             for j in range(i, l + 1):
                 q[i] += bpp[i][j]
                 q[j] += bpp[i][j]
-
         # turn probabilities to be paired into actual accessibilities
         for i in range(1, l + 1):
             q[i] = 1 - q[i]
-
         # collect data for current line of accessibilities
         line_list = [str(l), "equilibrium", args.sequence_id]
         line_list += [ "{:g}".format(q[i]) for i in range(1, l + 1) ]
         line_list += [ "NA" for i in range(l + 1, len(sequence) + 1) ]
-
         # print accessibilities
         print(",".join(line_list), file=outfile)
 
