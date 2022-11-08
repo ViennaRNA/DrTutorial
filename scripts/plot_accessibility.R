@@ -151,13 +151,13 @@ if (is.null(opt$ltitle) || opt$SHAPE) {
 }
 
 if (is.null(opt$xlabel)) {
-  xlabel = "Nucleotide Position"
+  xlabel = "Nucleotide position"
 } else {
   xlabel = opt$xlabel
 }
 
 if (is.null(opt$ylabel)) {
-  ylabel = "Transcript Length"
+  ylabel = "Transcript length"
 } else {
   ylabel = opt$ylabel
 }

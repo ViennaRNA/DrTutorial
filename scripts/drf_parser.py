@@ -126,11 +126,11 @@ def main():
         if args.accessibility:
             for l in range(1, datalen):
                 data = [str(round(p, 2)) for p in uprobs[l]] + ['NA' for _ in range(datalen - 1 - l)]
-                print(f"{l} {args.method} {args.name} {','.join(data)}", file = outfile)
+                print(f"{l},{args.method},{args.name},{','.join(data)}", file = outfile)
         if args.access_by_index:
             idx = args.access_by_index % len(uprobs)
             data = [str(round(p, 2)) for p in uprobs[idx]] + ['NA' for _ in range(datalen - 1 - idx)]
-            print(f"{len(uprobs)-1} {args.method} {args.name} {','.join(data)}", file = outfile)
+            print(f"{len(uprobs)-1},{args.method},{args.name},{','.join(data)}", file = outfile)
 
     if args.energy:
         eranges = drtrafo_get_drforna_energies(args.input)
