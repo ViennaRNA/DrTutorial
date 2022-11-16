@@ -5,3 +5,13 @@ SRPn-H1c-H2a-H3a.eps
 SRPn-H1.eps
 SRPn-H1-H2-R1-H3.eps
 SRPn-H2-R1-R2.eps
+
+# Compiled python modules.
+*.pyc
+
+# Setuptools distribution folder.
+/dist/
+
+# Python egg metadata, regenerated from source files by setuptools.
+/*.egg-info
+/*.egg

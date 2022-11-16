@@ -1,0 +1,2 @@
+include sequences/*.fa
+include SHAPE/*.rdat

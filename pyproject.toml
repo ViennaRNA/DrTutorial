@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "drtutorial"
+version = "0.1.0"
+authors = [
+  { name="Stefan Badelt", email="stef@tbi.univie.ac.at" },
+  { name="Ronny Lorenz", email="ronny@tbi.univie.ac.at" },
+]
+description = "A guide to computational cotranscriptional folding using the SRP RNA - Data and Scripts"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Unix",
+    "Operating System :: MacOS :: MacOS X",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Programming Language :: Python",
+    "Programming Language :: R",
+    "Programming Language :: Unix Shell",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ViennaRNA/DrTutorial-data"
+"Bug Tracker" = "https://github.com/ViennaRNA/DrTutorial-data/issues"
