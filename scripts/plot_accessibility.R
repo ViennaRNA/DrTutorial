@@ -223,8 +223,8 @@ if (!opt$SHAPE || opt$SHAPE2probs) {
                 labels=c(lab, paste(expression(">="), sprintf("%d", SHAPE_range))))
 }
 
-data_order = c("DrTrafo", "Kinfold","equilibrium","SHAPE")
-data_labels = c("DrTransformer", "Kinfold", "RNAfold", "Experiment")
+data_order = c("DrTrafo", "Kinfold","equilibrium","SHAPE", "SHAPE-1", "SHAPE-2", "SHAPE-3")
+data_labels = c("DrTransformer", "Kinfold", "RNAfold", "Experiment", "Experiment (repl. 1)", "Experiment (repl. 2)", "Experiment (repl. 3)")
 strand_order = c("SRPn", "SRPt", "SRPr", "SRPf")
 strand_labels = c("SRPn (native)", "SRPt (U21C)", "SRPr (U21C/C22U/G93A)", "SRPf (U35C/U37C)")
 
@@ -294,6 +294,6 @@ p <- p + theme(
 nrows = length(unique(dd$method))
 ncols = length(unique(dd$name))
 plot_width = ncols * 5 + 1
-plot_height = nrows * 5 + 1
+plot_height = nrows * 5.9 + 1
 
 ggsave(file=opt$out, plot=p, width=plot_width, height=plot_height)
