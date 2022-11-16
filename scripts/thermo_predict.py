@@ -110,12 +110,41 @@ def accessibility(args, sequence, outfile):
     if outfile != sys.stdout:
         outfile.close()
 
+def diversity(args, sequence, outfile):
+    """
+    Predict ensemble diversity profiles
+    """
+    # print header line
+    if args.header:
+        head_list = ["length", "name", "div"]
+        print(",".join(head_list), file=outfile)
+
+    # loop over all nascent transcripts
+    for l in range(1, len(sequence) + 1):
+        # create fold_compound for subsequence
+        fc  = RNA.fold_compound(sequence[0:l])
+        # compute MFE
+        (ss, mfe) = fc.mfe()
+        # rescale Boltzmann factors
+        fc.exp_params_rescale(mfe)
+        # compute partition function and base pair probabilities
+        fc.pf()
+
+        line = [str(l), args.sequence_id, "{:g}".format(fc.mean_bp_distance()/l)]
+        # print ensemble diversity
+        print(",".join(line), file=outfile)
+
+    if outfile != sys.stdout:
+        outfile.close()
+
+
 def fold_and_print(args, sequence, outfile):
     """
     Compute MFE and obtain Boltzmann samples from all nascent transcript lengths.
     Additionally, guide structure prediction by SHAPE data if available.
     """
     SHAPE_data = None
+    f_div = None
 
     if args.SHAPE:
         SHAPE_data = get_SHAPE_data(args.SHAPE, n, args.offset)
@@ -176,9 +205,9 @@ def fold_and_print(args, sequence, outfile):
         if args.mfe:
             line = [str(i), "MFE", args.sequence_id]
             line += ["{:.2f}".format(d) for d in [mfe for i in range(6)] ]
-
             print(",".join(line), file=outfile)
 
+                    
 def main():
     outfile       = None
     n             = 0
@@ -199,6 +228,9 @@ def main():
     group_output.add_argument("-a", "--append-to",
                         type = str,
                         help = "Append output to an existing file instead of overwriting it.")
+    group_output.add_argument("-d", "--diversity",
+                        type = str,
+                        help = "Print ensemble diversity")
     group_header.add_argument("--header",
                         action="store_true",
                         help="Add header line")
@@ -246,6 +278,14 @@ def main():
                                        help = 'Accessibility profile help')
     # no further options for this mode (yet)
     parser_up.set_defaults(func = accessibility)
+
+
+    # options for the 'ensemble diversity' mode
+    parser_div = sub_parsers.add_parser('diversity',
+                                        help = 'Ensemble diversity profile help')
+
+    # no further options for this mode (yet)
+    parser_div.set_defaults(func = diversity)
 
     args = parser.parse_args()
 
