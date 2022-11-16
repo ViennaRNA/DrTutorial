@@ -10,14 +10,28 @@ Below is a list of resources collected within this repository together with thei
 ## FASTA formatted RNA sequence files
 
 The `sequences/` directory contains the following FASTA-formatted
-sequences
+sequences:
 
-| sequence id | local file | data set (sequence name) | Reference |
+| sequence id | local file | data set (sequence name) | reference |
 | ----------- | ---------- | ------------------------ | --------- |
 | SRPn | [SRPn.fa](sequences/SRPn.fa) | Native E.coli SRP sequence | [1], [2], [3], [4] |
-| SRPn | [SRPt.fa](sequences/SRPt.fa) | Trapped E.coli SRP mutant (U21C) | [1], [3] |
-| SRPn | [SRPr.fa](sequences/SRPr.fa) | Rescue E.coli SRP mutant (U21C/C22U/G93A) | [1] |
-| SRPn | [SRPf.fa](sequences/SRPf.fa) | Folding-path E.coli SRP mutant (U35C/U37C) | [3] |
+| SRPt | [SRPt.fa](sequences/SRPt.fa) | Trapped E.coli SRP mutant (U21C) | [1], [3] |
+| SRPr | [SRPr.fa](sequences/SRPr.fa) | Rescue E.coli SRP mutant (U21C/C22U/G93A) | [1] |
+| SRPf | [SRPf.fa](sequences/SRPf.fa) | Folding-path E.coli SRP mutant (U35C/U37C) | [3] |
+
+and additional structural motifs of transient helices in
+FASTA format with dot-bracket structures as reported in
+literature and within this tutorial:
+
+| sequence id | local file | description | reference |
+| ----------- | ---------- | ----------- | --------- |
+| SRPn | [SRPn-H1.fa](sequences/SRPn-H1.fa) | Transient helix H1 | [1],[3] |
+| SRPn | [SRPn-H1a.fa](sequences/SRPn-H1a.fa) | Transient helix H1a | [4] |
+| SRPn | [SRPn-H1b.fa](sequences/SRPn-H1b.fa) | Transient helix H1b | [3] |
+| SRPn | [SRPn-H1c.fa](sequences/SRPn-H1c.fa) | Transient helix H1c |  |
+| SRPn | [SRPn-H1-H2-R1-H3.fa](sequences/SRPn-H1-H2-R1-H3.fa) | Transient helices H1, H2, R1, and H3 | [1],[3] |
+| SRPn | [SRPn-H1c-H2a-H3a.fa](sequences/SRPn-H1c-H2a-H3a.fa) | Transient helices H1c, H2a, and H3a | [1] |
+| SRPn | [SRPn-H2-R1-R2.fa](sequences/SRPn-H2-R1-R2.fa) | Functional conformation with helices H2, R1, and R2 | [1],[2],[3] |
 
 
 ## SHAPE reactivity data
@@ -25,7 +39,7 @@ sequences
 The `SHAPE/` directory contains co-transcriptional SHAPE data provided by [1] and [2] and downloaded from
 the [RMDB database](https://rmdb.stanford.edu/).
 
-| sequence id | local file | data set (with link to RMDB) | Reference |
+| sequence id | local file | data set (with link to RMDB) | reference |
 | ----------- | ---------- | ---------------------------- | --------- |
 | SRPn | [SRPECLI_BZCN_0001.rdat](SHAPE/SRPECLI_BZCN_0001.rdat)  |  [Replicate 1 for native E.coli SRP sequence](https://rmdb.stanford.edu/detail/SRPECLI_BZCN_0001) | [2] |
 | SRPn | [SRPECLI_BZCN_0002.rdat](SHAPE/SRPECLI_BZCN_0002.rdat)  |  [Replicate 2 for native E.coli SRP sequence](https://rmdb.stanford.edu/detail/SRPECLI_BZCN_0002) | [2] |
@@ -52,6 +66,7 @@ the `scripts/` directory contains various prediction-, parser- and plotting scri
 | [convert_rdat.py](scripts/convert_rdat.py) | Convert cotranscriptional SHAPE reactivity data from RMDBs .rdat files into the CSV format produced by `drf_parser.py` and `thermo_predict.py` |
 | [plot_energy_bands.R](scripts/plot_energy_bands.R) | Produce an energy distribution plot for cotranscriptionally formed structures |
 | [plot_accessibility.R](scripts/plot_accessibility.R) | Plot accessibility profiles for nascent transcripts |
+| [make_SRP_images.sh](scripts/make_SRP_images.sh) | Create annotated secondary structure plots of the transient helix motifs |
 
 
 ## References
