@@ -29,7 +29,7 @@ option_list = list(
               help="Normalize SHAPE reactivity"),
   make_option(c("--SHAPE2probs"), type="logical", action="store_true", default=FALSE,
               help="Convert SHAPE reactivities to unpaired probabilities"),
-  make_option(c("--SHAPErange"), type="integer", default=4,
+  make_option(c("--SHAPErange"), type="integer", default=1,
               help="Largest SHAPE reativity value"),
   make_option(c("--offset"), type="integer", default=0,
               help="Offset of transcription time points"),
@@ -294,6 +294,6 @@ p <- p + theme(
 nrows = length(unique(dd$method))
 ncols = length(unique(dd$name))
 plot_width = ncols * 5 + 1
-plot_height = nrows * 5.9 + 1
+plot_height = nrows * 5.2 + 1
 
 ggsave(file=opt$out, plot=p, width=plot_width, height=plot_height)
