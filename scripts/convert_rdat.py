@@ -50,12 +50,12 @@ def rdat2csv(args, outfile):
     for l in range(1, max_l + 1):
         if str(l) in reactivities:
             remaining = max_l - l
-            line_list = [str(l), "SHAPE", args.sequence_id]
+            line_list = [str(l), args.method, args.sequence_id]
             line_list += [ str(r) for r in reactivities[str(l)]]
             line_list += [ 'NA' for _ in range(remaining) ]
             print(",".join(line_list), file = outfile)
         else:
-            print(",".join([str(l), "SHAPE", args.sequence_id] + ['NA' for _ in range(max_l) ]), file = outfile)
+            print(",".join([str(l), args.method, args.sequence_id] + ['NA' for _ in range(max_l) ]), file = outfile)
 
 
 def main():
@@ -86,6 +86,10 @@ def main():
                         type = str,
                         help = "Sequence identifier",
                         default = "RNA")
+    parser.add_argument("-m ", "--method",
+                        type = str,
+                        help = "Method name",
+                        default = "SHAPE")
     parser.add_argument("-l", "--length",
                         type = int,
                         help = "Length of full transcript. Missing data will be filled with NA",
