@@ -6,6 +6,20 @@ This repository contains data, scripts and other resources for the DrTutorial bo
 
 Below is a list of resources collected within this repository together with their references and sources (if applicable).
 
+## Installation
+
+The resources can be installed globally via `pip`:
+
+```
+pip install .
+```
+
+or locally in the users home directory via:
+
+```
+pip install --user .
+```
+
 
 ## FASTA formatted RNA sequence files
 
