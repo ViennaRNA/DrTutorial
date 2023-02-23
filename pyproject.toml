@@ -25,6 +25,10 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 
+[project.scripts]
+DrKinfold = "drconverters.drkinfold:main"
+DrKinefold = "drconverters.drkinefold:main"
+
 [project.urls]
 "Homepage" = "https://github.com/ViennaRNA/DrTutorial-data"
 "Bug Tracker" = "https://github.com/ViennaRNA/DrTutorial-data/issues"
