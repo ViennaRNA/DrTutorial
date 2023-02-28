@@ -71,7 +71,7 @@ the [RMDB database](https://rmdb.stanford.edu/).
 
 ## Python and R scripts
 
-the `scripts/` directory contains various prediction-, parser- and plotting scripts.
+The `scripts/` directory contains various prediction-, parser- and plotting scripts.
 
 | script name | purpose |
 | ----------- | ------- |
@@ -82,6 +82,9 @@ the `scripts/` directory contains various prediction-, parser- and plotting scri
 | [plot_accessibility.R](scripts/plot_accessibility.R) | Plot accessibility profiles for nascent transcripts |
 | [make_SRP_images.sh](scripts/make_SRP_images.sh) | Create annotated secondary structure plots of the transient helix motifs |
 
+Additionally, in the `drconverters/` directory, this repository contains a snapshot of the
+[`drconverters`](https://github.com/bad-ants-fleet/drconverters) script package. This package
+will be automagically included in the installation process.
 
 ## References
 
