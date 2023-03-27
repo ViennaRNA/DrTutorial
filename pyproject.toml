@@ -29,6 +29,17 @@ classifiers = [
 DrKinfold = "drconverters.drkinfold:main"
 DrKinefold = "drconverters.drkinefold:main"
 
+[tool.setuptools]
+script-files = ["scripts/make_SRP_images.sh",
+                "scripts/plot_accessibility.R",
+                "scripts/plot_energy_bands.R",
+                "scripts/thermo_predict.py",
+                "scripts/drf_parser.py",
+                "scripts/convert_rdat.py"]
+package-dir = { "" = "drconverters" }
+packages = ["drconverters"]
+
+
 [project.urls]
 "Homepage" = "https://github.com/ViennaRNA/DrTutorial-data"
 "Bug Tracker" = "https://github.com/ViennaRNA/DrTutorial-data/issues"
