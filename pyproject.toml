@@ -41,5 +41,5 @@ packages = ["drconverters"]
 
 
 [project.urls]
-"Homepage" = "https://github.com/ViennaRNA/DrTutorial-data"
-"Bug Tracker" = "https://github.com/ViennaRNA/DrTutorial-data/issues"
+"Homepage" = "https://github.com/ViennaRNA/DrTutorial"
+"Bug Tracker" = "https://github.com/ViennaRNA/DrTutorial/issues"
