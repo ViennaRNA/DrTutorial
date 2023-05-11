@@ -12,6 +12,11 @@ authors = [
 description = "A guide to computational cotranscriptional folding using the SRP RNA - Data and Scripts"
 readme = "README.md"
 requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
