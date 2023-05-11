@@ -11,6 +11,7 @@ import numpy as np
 from subprocess import Popen, PIPE
 from multiprocessing import Pool
 
+from . import __version__
 from .utils import (parse_vienna_stdin, 
                     get_drf_output_times, 
                     combine_drfs)
@@ -131,13 +132,14 @@ def sub_kinfold(*kargs, **kwargs):
                 yield line
     return
 
-def run_kinfold(times, basename, seq, num, atupernuc, atupersec, totkftime, temperature):
+def run_kinfold(times, basename, seq, num, atupernuc, atupersec, totkftime, temperature, params):
     idc = 0
     with open(f'{basename}.drf', 'w') as drf:
         drf.write(f"id time occupancy structure energy\n")
         t, nsim = 0, 0
         for line in sub_kinfold(basename, seq, num = num, glen = 1, temp = temperature,
-                                grow = atupernuc, time = totkftime, erange = 999999):
+                                params = params, grow = atupernuc, time = totkftime, 
+                                erange = 999999):
             [ss, en, st] = line.split()[0:3]
             stime = float(st)
             # Add all drf output times until the give time step
@@ -157,6 +159,9 @@ def run_kinfold(times, basename, seq, num, atupernuc, atupersec, totkftime, temp
     print(f'[Done:] Kinfold call for {basename} finished after {nsim} simulations. ')
 
 def parse_drkinfold_args(parser):
+    parser.add_argument('--version', action = 'version', 
+            version = '%(prog)s ' + __version__)
+
     parser.add_argument("--name", default = '', metavar = '<str>',
             help = """Name your output files, name the header of your plots, etc.
             this option overwrites the fasta-header.""")
@@ -193,6 +198,12 @@ def parse_drkinfold_args(parser):
     parser.add_argument("-T", "--temp", type = float, default = 37.0, 
         metavar = '<flt>',
         help = 'Rescale energy parameters to a temperature of temp C.')
+
+    parser.add_argument("-P", "--paramFile", action = "store", default = None,
+        metavar = '<str>',
+        help = """Read energy parameters from a parameter file, instead of 
+        using the default ViennaRNA parameter set.""")
+
     return
 
 def main():
@@ -223,7 +234,7 @@ def main():
     if os.path.exists(args.tmpdir):
         for data in glob.glob(f'{args.tmpdir}/{name}.*.drf'):
             ndata = data.split('/')[-1]
-            *pre, nfid, suf = ndata.split('_')
+            *pre, nfid, suf = ndata.split('.')
             fid = max(fid, int(nfid)+1)
     else:
         os.mkdir(args.tmpdir)
@@ -239,13 +250,13 @@ def main():
         with Pool(processes = args.cpus) as q:
             multiple_results = [q.apply_async(run_kinfold, 
                 (times, f'{args.tmpdir}/{name}.{fid+x:03d}', seq, 
-                 args.num, atupernuc, atupersec, totkftime, args.temp)) for x in range(args.processes)]
+                 args.num, atupernuc, atupersec, totkftime, args.temp, args.paramFile)) for x in range(args.processes)]
             [res.get() for res in multiple_results]
 
     #
     # Combine all drf files from individual simulations to one lage output file.
     #
-    combine_drfs(f'{args.tmpdir}/{name}_*.drf', f'{name}.drf', len(seq), times, use_counts = False)
+    combine_drfs(f'{args.tmpdir}/{name}*.drf', f'{name}.drf', len(seq), times, use_counts = False)
 
 if __name__ == '__main__':
     main()
