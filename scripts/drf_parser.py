@@ -6,6 +6,27 @@ import math
 import pandas as pd
 import argparse
 
+
+def access_mode(args, outfile):
+    if args.lshape:
+        assert not args.length
+        assert not args.by_index
+        args.length = args.lshape
+        args.by_index = -1
+
+    uprobs = get_uprobs(args.input) # uprobs[0] = []
+    datalen = args.length + 1 if args.length else len(uprobs)
+    if args.output:
+        print(f"length,method,name,{','.join(map(str, range(1, datalen)))}", file = outfile)
+    if args.by_index:
+        idx = args.by_index % len(uprobs)
+        data = [str(round(p, 2)) for p in uprobs[idx]] + ['NA' for _ in range(datalen - 1 - idx)]
+        print(f"{len(uprobs)-1},{args.method},{args.name},{','.join(data)}", file = outfile)
+    else:
+        for l in range(1, datalen):
+            data = [str(round(p, 2)) for p in uprobs[l]] + ['NA' for _ in range(datalen - 1 - l)]
+            print(f"{l},{args.method},{args.name},{','.join(data)}", file = outfile)
+
 def drtrafo_get_drforna_energies(drf):
     bins = []
     with open(drf) as f:
@@ -48,91 +69,7 @@ def drtrafo_get_drforna_energies(drf):
         bins.append(last_bin.copy())
     return bins
 
-def get_uprobs(drf):
-    uprobs = []
-    with open(drf) as f:
-        llen, ltime, lltime = 0, '0', '0'
-        up = []
-        for i, line in enumerate(f):
-            if i == 0:
-                assert line == "id time occupancy structure energy\n"
-                continue
-            [_, stime, occ, ss, en] = line.split()
-            occu = float(occ)
-            if ltime == stime and len(ss) == llen:
-                for j, b in enumerate(ss):
-                     if b == '.': 
-                         up[j] += occu
-            else:
-                if len(ss) > llen:
-                    uprobs.append(up)
-                up = [0 for _ in range(len(ss))]
-                for j, b in enumerate(ss):
-                     if b == '.': 
-                         up[j] += occu
-            llen = len(ss)
-            ltime = stime
-        uprobs.append(up)
-    return uprobs
-
-def main():
-    """ For example:
-    ./drtrafo_parser.py -i SRP.drf --mode energyrange
-    ./drtrafo_parser.py -i SRP.drf --mode accessibility
-    """
-    outfile = None
-    parser  = argparse.ArgumentParser()
-    group   = parser.add_mutually_exclusive_group()
-
-    group.add_argument("-o", "--output", type = str,
-                        help = "Output file name. Defaults to STDOUT. Automatically adds header unless (--no-header) is specified")
-    group.add_argument("-a", "--append", type = str,
-                        help = "Append output to an existing file. Does not print the header, disables STDOUT.")
-    parser.add_argument("-i", "--input", required = True, type = str,
-                        help = "Input file name. Defaults to STDIN.")
-    parser.add_argument("--energy", action = "store_true",
-                        help = "Calculate accessibilities.")
-    parser.add_argument("--accessibility", action = "store_true",
-                        help = "Calculate accessibilities.")
-    parser.add_argument("--access-by-index", type = int, default = 0,
-                        help = "Calculate accessibilities.")
-    parser.add_argument("-l", "--length", type = int,
-                        help = "Specify transcript length (e.g. when data is missing).")
-    parser.add_argument("-n", "--name", type = str, required = True,
-                        help = "Sequence name")
-    parser.add_argument("-m", "--method", type = str, required = True,
-                        help = "Method name")
-    parser.add_argument("--lshape", type = int,
-                        help = "Shortcut to read results of a shapeseq simulation.")
-    args = parser.parse_args()
-
-    outfile = sys.stdout
-    if args.output:
-        outfile = open(args.output, "w")
-    elif args.append:
-        outfile = open(args.append, "a")
-
-    if args.lshape:
-        assert not args.length
-        assert not args.access_by_index
-        args.length = args.lshape
-        args.access_by_index = -1
-
-    if args.accessibility or args.access_by_index:
-        uprobs = get_uprobs(args.input) # uprobs[0] = []
-        datalen = args.length + 1 if args.length else len(uprobs)
-        if args.output:
-            print(f"length,method,name,{','.join(map(str, range(1, datalen)))}", file = outfile)
-        if args.accessibility:
-            for l in range(1, datalen):
-                data = [str(round(p, 2)) for p in uprobs[l]] + ['NA' for _ in range(datalen - 1 - l)]
-                print(f"{l},{args.method},{args.name},{','.join(data)}", file = outfile)
-        if args.access_by_index:
-            idx = args.access_by_index % len(uprobs)
-            data = [str(round(p, 2)) for p in uprobs[idx]] + ['NA' for _ in range(datalen - 1 - idx)]
-            print(f"{len(uprobs)-1},{args.method},{args.name},{','.join(data)}", file = outfile)
-
-    if args.energy:
+def energy_mode(args, outfile):
         eranges = drtrafo_get_drforna_energies(args.input)
         datalen = args.length + 1 if args.length else len(eranges)
         if args.output:
@@ -164,6 +101,87 @@ def main():
                          f'{df.min():.2f}',
                          f'{df.max():.2f}']
             print(",".join(data_list), file=outfile)
+
+
+def get_uprobs(drf):
+    uprobs = []
+    with open(drf) as f:
+        llen, ltime, lltime = 0, '0', '0'
+        up = []
+        for i, line in enumerate(f):
+            if i == 0:
+                assert line == "id time occupancy structure energy\n"
+                continue
+            [_, stime, occ, ss, en] = line.split()
+            occu = float(occ)
+            if ltime == stime and len(ss) == llen:
+                for j, b in enumerate(ss):
+                     if b == '.': 
+                         up[j] += occu
+            else:
+                if len(ss) > llen:
+                    uprobs.append(up)
+                up = [0 for _ in range(len(ss))]
+                for j, b in enumerate(ss):
+                     if b == '.': 
+                         up[j] += occu
+            llen = len(ss)
+            ltime = stime
+        uprobs.append(up)
+    return uprobs
+
+def main():
+    """ drf_parser.py
+    """
+    outfile = None
+    parser  = argparse.ArgumentParser()
+    oform = parser.add_mutually_exclusive_group()
+
+    oform.add_argument("-o", "--output", type = str,
+        help = "Output file name. (Automatically adds header to output.) Defaults to STDOUT. ")
+    oform.add_argument("-a", "--append", type = str,
+        help = "Append output to an existing file. Does not print the header.")
+
+    parser.add_argument("-l", "--length", type = int,
+                        help = "Specify transcript length (e.g. when data is missing).")
+    parser.add_argument("-n", "--name", type = str, required = True,
+                        help = "Sequence name")
+    parser.add_argument("-m", "--method", type = str, required = True,
+                        help = "Method name")
+
+    # create sub-parsers for the different modes of this script
+    sub_parsers = parser.add_subparsers(title = 'subcommands',
+                                        description = 'valid sub-commands',
+                                        required = True)
+
+    # options for the 'energy distribution' mode
+    parser_en = sub_parsers.add_parser('energy',
+                                       help='Extract energy distribution mode.')
+    parser_en.set_defaults(func = energy_mode)
+
+    # options for the 'accessibility profile' mode
+    parser_up = sub_parsers.add_parser('accessibility',
+                                       help = 'Extract accessibilies mode.')
+    parser_up.add_argument("--by-index", type = int, default = 0,
+                        help = "Get accessibilities from specific step.")
+
+    parser_up.add_argument("--lshape", type = int,
+                        help = "Shortcut to read results of a shapeseq simulation.")
+
+    # no further options for this mode (yet)
+    parser_up.set_defaults(func = access_mode)
+
+
+    parser.add_argument('input', default=None, help="Path to the input file.")
+    args = parser.parse_args()
+
+    outfile = sys.stdout
+    if args.output:
+        outfile = open(args.output, "w")
+    elif args.append:
+        outfile = open(args.append, "a")
+
+    args.func(args, outfile)
 
     if args.output or args.append:
         outfile.close()
