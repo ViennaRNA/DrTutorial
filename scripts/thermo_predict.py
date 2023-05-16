@@ -219,8 +219,7 @@ def main():
     parser.add_argument("-i",
                         "--input",
                         type = str,
-                        help = "Sequence input file, e.g. FASTA formatted.",
-                        required = True)
+                        help = "Sequence input file, e.g. FASTA formatted.")
     group_output.add_argument("-o", "--output",
                         type = str,
                         help = "Output file name. Defaults to print to stdout.",
@@ -286,6 +285,8 @@ def main():
 
     # no further options for this mode (yet)
     parser_div.set_defaults(func = diversity)
+
+    parser.add_argument('input', default=None, help="Path to the input file.")
 
     args = parser.parse_args()
 
